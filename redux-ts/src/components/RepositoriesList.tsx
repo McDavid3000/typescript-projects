@@ -1,12 +1,12 @@
 import { useState } from 'react';
+import { useTypedSelector } from '../hooks/useTypedSelector';
 import { useActions } from '../hooks/useActions';
-import { useSelector } from 'react-redux';
 
 const RepositoriesList: React.FC = () => {
   // Array destructuring
   const [term, setTerm] = useState('');
   const { SearchRepositories } = useActions();
-  const { error, data, loading } = useSelector(
+  const { data, error, loading } = useTypedSelector(
     (state: any) => state.repositories
   );
 
