@@ -1,13 +1,13 @@
 import { useState } from 'react';
+import { useTypedSelector } from '../hooks/useTypedSelector';
 import { useActions } from '../hooks/useActions';
-import { useSelector } from 'react-redux';
 
 const RepositoriesList: React.FC = () => {
   // Array destructuring
   const [term, setTerm] = useState('');
   const { SearchRepositories } = useActions();
-  const { error, data, loading } = useSelector(
-    (state: any) => state.repositories
+  const { data, error, loading } = useTypedSelector(
+    (state) => state.repositories
   );
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
@@ -24,7 +24,15 @@ const RepositoriesList: React.FC = () => {
 
         <button>Search</button>
       </form>
+      {error && <h3>{error}</h3>}
+      {loading && <h3>Loading...</h3>}
+      {!error && !loading && data.map((name) => <div key={name}>{name}</div>)}
     </div>
   );
 };
 export default RepositoriesList;
+
+// Directory structure designed to be very clear
+// No direct state imports. All imports from root file
+// Communicating types over to components can be challenging
+// Extra code required to send type info from Redux over to React-Redux
