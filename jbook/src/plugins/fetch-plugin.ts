@@ -18,8 +18,8 @@ export const fetchPlugin = (inputCode: string) => {
         };
       });
 
-      // Filter for CSS files
-      build.onLoad({ filter: /.css$/ }, async (args: any) => {
+      // A default onLoad function that checks for cached result before other onLoad()
+      build.onLoad({ filter: /.*/ }, async (args: any) => {
         const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
           args.path
         );
@@ -27,7 +27,10 @@ export const fetchPlugin = (inputCode: string) => {
         if (cachedResult) {
           return cachedResult;
         }
+      });
 
+      // Filter for CSS files
+      build.onLoad({ filter: /.css$/ }, async (args: any) => {
         const { data, request } = await axios.get(args.path);
 
         // Remove new lines, escape double and single quotes
@@ -55,14 +58,6 @@ export const fetchPlugin = (inputCode: string) => {
 
       // Filter for plain JS files
       build.onLoad({ filter: /.*/ }, async (args: any) => {
-        const cachedResult = await fileCache.getItem<esbuild.OnLoadResult>(
-          args.path
-        );
-
-        if (cachedResult) {
-          return cachedResult;
-        }
-
         const { data, request } = await axios.get(args.path);
 
         const result: esbuild.OnLoadResult = {
