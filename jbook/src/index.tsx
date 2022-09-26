@@ -38,6 +38,13 @@ const App = () => {
 
     //console.log(result);
     setCode(result.outputFiles[0].text);
+
+    // Built in browser function (exectutes JS contained in a string)
+    try {
+      eval(result.outputFiles[0].text);
+    } catch (err) {
+      alert(err);
+    }
   };
 
   return (
@@ -50,6 +57,7 @@ const App = () => {
         <button onClick={onClick}>Submit</button>
       </div>
       <pre>{code}</pre>
+      <iframe src="/test.html" />
     </div>
   );
 };
