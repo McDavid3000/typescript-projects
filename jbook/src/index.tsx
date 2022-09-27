@@ -36,16 +36,14 @@ const App = () => {
       },
     });
 
-    //console.log(result);
     setCode(result.outputFiles[0].text);
-
-    // Built in browser function (exectutes JS contained in a string)
-    try {
-      eval(result.outputFiles[0].text);
-    } catch (err) {
-      alert(err);
-    }
   };
+
+  const html = `
+<script>
+  ${code}
+</script>
+`;
 
   return (
     <div>
@@ -57,7 +55,7 @@ const App = () => {
         <button onClick={onClick}>Submit</button>
       </div>
       <pre>{code}</pre>
-      <iframe src="/test.html" />
+      <iframe sandbox="allow-scripts" srcDoc={html} />
     </div>
   );
 };
