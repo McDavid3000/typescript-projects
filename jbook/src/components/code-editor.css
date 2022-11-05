@@ -1,7 +1,7 @@
 .editor-wrapper {
   position: realtive;
   height: 100%;
-  width: 100%;
+  width: calc(100% - 10px);
 }
 
 .editor-wrapper .button-format {
